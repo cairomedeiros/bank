@@ -30,7 +30,8 @@ public class AccountController {
         return accountService.saveAccount(account);
     }
 
-    public Account account(@RequestBody Account account){
+    @PutMapping
+    public Account updateAccount(@RequestBody Account account){
         return accountService.updateAccount(account);
     }
 
