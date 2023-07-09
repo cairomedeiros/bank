@@ -1,5 +1,6 @@
 package bank.bank.entities;
 
+import bank.bank.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,7 @@ public class Account {
 
     @Column(name = "password", length = 45)
     private String password;
+
+    @Column(name = "accounttype")
+    private AccountType accountType;
 }
