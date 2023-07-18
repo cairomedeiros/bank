@@ -1,6 +1,5 @@
 package bank.bank.entities;
 
-import bank.bank.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "tb_account")
-public class Account {
+@Table(name = "tb_user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,4 @@ public class Account {
 
     @Column(name = "password", length = 45)
     private String password;
-
-    @Column(name = "accounttype")
-    private AccountType accountType;
 }
