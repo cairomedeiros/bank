@@ -1,8 +1,14 @@
 package bank.bank.controller;
 
+import bank.bank.dto.AuthenticationDTO;
 import bank.bank.entities.User;
 import bank.bank.service.UserService;
+import jakarta.validation.Valid;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +21,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @GetMapping("/users")
     public List<User> findAllUsers(){
         return userService.findAllUsers();
     }
@@ -30,6 +39,13 @@ public class UserController {
         return userService.saveUser(user);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.userName(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+
+            return ResponseEntity.ok().build();
+    }
     @PutMapping
     public User updateUser(@RequestBody User user){
         return userService.updateUser(user);
