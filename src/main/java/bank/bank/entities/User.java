@@ -31,11 +31,17 @@ public class User implements UserDetails {
     @Column(name = "email", length = 25)
     private String email;
 
-    @Column(name = "password", length = 45)
+    @Column(name = "password", length = 200)
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 45)
     private UserRole role;
+
+    public User(String userName, String password, UserRole role){
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

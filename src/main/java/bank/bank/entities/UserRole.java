@@ -1,9 +1,9 @@
 package bank.bank.entities;
 
 public enum UserRole {
-    ADMIN("admin"),
-    USER("user"),
-    SHOPKEEPER("shopkeeper");
+    ADMIN("ADMIN"),
+    USER("USER"),
+    SHOPKEEPER("SHOPKEEPER");
 
     private String role;
 
