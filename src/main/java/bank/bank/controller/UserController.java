@@ -1,6 +1,8 @@
 package bank.bank.controller;
 
+import bank.bank.configs.security.TokenService;
 import bank.bank.dto.AuthenticationDTO;
+import bank.bank.dto.LoginResponseDTO;
 import bank.bank.dto.RegisterDTO;
 import bank.bank.entities.User;
 import bank.bank.repository.UserRepository;
@@ -30,6 +32,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @GetMapping("/users")
     public List<User> findAllUsers(){
         return userService.findAllUsers();
@@ -50,7 +55,9 @@ public class UserController {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.userName(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
-            return ResponseEntity.ok().build();
+            var token = tokenService.generateToken((User) auth.getPrincipal());
+
+            return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
