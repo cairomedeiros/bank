@@ -34,14 +34,22 @@ public class User implements UserDetails {
     @Column(name = "password", length = 200)
     private String password;
 
+    @Column(name = "cpf")
+    private String cpf;
+
+    @Column(name = "cnpj")
+    private String cnpj;
+
     @Column(name = "role")
     private UserRole role;
 
-    public User(String name, String userName, String email, String password, UserRole role){
+    public User(String name, String userName, String email, String password, String cpf, String cnpj , UserRole role){
         this.name = name;
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.cpf = cpf;
+        this.cnpj = cnpj;
         this.role = role;
     }
 

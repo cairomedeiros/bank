@@ -65,7 +65,7 @@ public class UserController {
             if(this.userRepository.findByUserName(data.userName()) != null) return ResponseEntity.badRequest().build();
 
             String encryptPassword = new BCryptPasswordEncoder().encode(data.password());
-            User newUser = new User(data.name(), data.userName(), data.email(), encryptPassword, data.role());
+            User newUser = new User(data.name(), data.userName(), data.email(), encryptPassword, data.cpf(), data.cnpj(), data.role());
 
             this.userRepository.save(newUser);
 
