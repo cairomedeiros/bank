@@ -5,6 +5,7 @@ import bank.bank.dto.AuthenticationDTO;
 import bank.bank.dto.LoginResponseDTO;
 import bank.bank.dto.RegisterDTO;
 import bank.bank.entities.User;
+import bank.bank.entities.UserRole;
 import bank.bank.repository.UserRepository;
 import bank.bank.service.UserService;
 import jakarta.validation.Valid;
@@ -62,7 +63,18 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-            if(this.userRepository.findByUserName(data.userName()) != null) return ResponseEntity.badRequest().build();
+            var validateCpfCnpj = false;
+
+            if(data.role().getRole().equals(UserRole.USER)){
+                validateCpfCnpj = this.userRepository.findByCpf(data.cpf()) != null;
+            }else if(data.role().getRole().equals(UserRole.SHOPKEEPER)){
+                validateCpfCnpj = this.userRepository.findByCnpj(data.cnpj()) != null;
+            }
+
+            if(this.userRepository.findByUserName(data.userName()) != null &&
+                this.userRepository.findByEmail(data.email()) != null &&
+                    validateCpfCnpj)
+                return ResponseEntity.badRequest().build();
 
             String encryptPassword = new BCryptPasswordEncoder().encode(data.password());
             User newUser = new User(data.name(), data.userName(), data.email(), encryptPassword, data.cpf(), data.cnpj(), data.role());
