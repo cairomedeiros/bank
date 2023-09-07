@@ -1,5 +1,6 @@
 package bank.bank.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +44,14 @@ public class User implements UserDetails {
     @Column(name = "role")
     private UserRole role;
 
+    @OneToMany(mappedBy = "payer")
+    @JsonIgnore
+    private List<Transaction> transactionsPaids;
+
+    @OneToMany(mappedBy = "payee")
+    @JsonIgnore
+    private List<Transaction> transactionsReceiveds;
+
     public User(String name, String userName, String email, String password, String cpf, String cnpj , UserRole role){
         this.name = name;
         this.userName = userName;
@@ -82,5 +91,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

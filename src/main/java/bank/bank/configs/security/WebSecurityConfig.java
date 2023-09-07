@@ -31,7 +31,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/transaction/save").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
